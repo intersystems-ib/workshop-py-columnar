@@ -1,0 +1,12 @@
+ zn "%SYS"
+ // Unexpire passwords and set up passwordless mode to simplify dev use.
+ // ** Comment out these two line for Production use **
+ do ##class(Security.Users).UnExpireUserPasswords("*")
+
+ set sc = $SYSTEM.OBJ.LoadDir("/opt/irisapp/src/", "ck", , 1) 
+ if sc do ##class(Test.Installer).Install() 
+
+ zn "TEST" 
+ DO $SYSTEM.SQL.Schema.ImportDDL("/tmp/dump.txt",,"IRIS") 
+
+ halt
